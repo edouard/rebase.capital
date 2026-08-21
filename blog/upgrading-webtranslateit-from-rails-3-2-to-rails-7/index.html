@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upgrading WebTranslateIt from Rails 3.2 to Rails 7 &mdash; Rebase Capital</title>
+  <meta name="description" content="How a team of two took a large Rails app from Rails 3.2 and Ruby 2.7 to Rails 7 and Ruby 3.1 in four months.">
+  <link rel="canonical" href="https://rebase.capital/blog/upgrading-webtranslateit-from-rails-3-2-to-rails-7/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://rebase.capital/blog/upgrading-webtranslateit-from-rails-3-2-to-rails-7/">
+  <meta property="og:title" content="Upgrading WebTranslateIt from Rails 3.2 to Rails 7 &mdash; Rebase Capital">
+  <meta property="og:description" content="How a team of two took a large Rails app from Rails 3.2 and Ruby 2.7 to Rails 7 and Ruby 3.1 in four months.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101B2D'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23C58A2A' stroke-width='3'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400..600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/site.js"></script>
+</head>
+
+<body class="bg-paper text-ink dark:bg-ink-dark dark:text-paper-dark font-body antialiased">
+  <div class="mx-auto w-full max-w-4xl px-6 sm:px-10">
+
+    <header class="rise flex items-baseline justify-between gap-4 border-b border-rule dark:border-rule-dark py-6">
+      <a href="/" class="wordmark">
+        <span class="mr-2 inline-block h-2 w-2 -translate-y-px rounded-full bg-signal dark:bg-signal-dark align-middle"></span>Rebase&nbsp;Capital
+      </a>
+      <nav class="flex items-baseline gap-6">
+        <a href="/blog/" class="nav-link nav-link-current">Blog</a>
+        <a href="/about/" class="nav-link">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <article class="pt-14 pb-16 sm:pt-20 sm:pb-24">
+        <header>
+          <p class="rise eyebrow">
+            <time datetime="2022-10-16">16 October 2022</time>
+          </p>
+          <h1 class="rise display font-display mt-6 max-w-[20ch] text-[clamp(2.125rem,6.5vw,3.75rem)] leading-[0.98]" style="animation-delay:0.06s">
+            Upgrading WebTranslateIt from Rails 3.2 to Rails 7
+          </h1>
+          <p class="rise mt-8 max-w-[38rem] text-xl leading-relaxed text-slate dark:text-slate-dark" style="animation-delay:0.12s">
+            How a team of two took a large Rails app from Rails 3.2 and Ruby 2.7 to Rails 7 and Ruby 3.1 in four months.
+          </p>
+        </header>
+
+        <div class="rise prose mt-14 max-w-[38rem] border-t border-rule pt-12 dark:border-rule-dark sm:mt-16" style="animation-delay:0.18s">
+
+          <p>
+            About a year ago, WebTranslateIt ran on Rails 3.2 LTS and Ruby 2.7. It now runs on vanilla
+            Rails 7 and Ruby 3.1. The app started life in 2009 as a Rails 2 app. Time flies.
+          </p>
+          <p>
+            <a href="https://webtranslateit.com" target="_blank" rel="noopener">WebTranslateIt</a> is a
+            Rails app with a large codebase, serving about 35 requests per second on average.
+          </p>
+          <p>
+            Rails LTS is a maintained fork of Rails sold by Makandra, with continuous security fixes.
+            They also ship patched versions of some Rails dependencies, rake among them. It let us stay
+            on an old version of Rails indefinitely and safely, but staying was never the plan. We
+            wanted the newer features and the performance improvements. We recommend Rails LTS all the
+            same.
+          </p>
+          <p>
+            First, why we were running something so old. For years, WebTranslateIt had a development
+            team of one: me. I tried on and off for two years to get from Rails 3.2 to Rails 4, and it
+            was simply too hard. Running a business meant shipping the features that paid for it, so
+            the upgrade kept getting postponed.
+          </p>
+          <p>
+            We are two now. James, a freelance Rails developer, took the project on. He is experienced
+            and knows the framework deeply, and that is why we moved as fast as we did. Here is how we
+            went from Rails 3.2 to 7.0, and Ruby 2.7 to 3.1, in four months.
+          </p>
+
+          <h2>Preparation</h2>
+          <p>
+            We started by improving test coverage. Upgrading across a gap that size without good
+            coverage is asking for trouble. We spent a few months writing unit tests over the important
+            parts of the code, plus feature tests with Capybara.
+          </p>
+          <p>
+            We added RuboCop and fixed the offenses. Normalizing the code and catching problems early,
+            many of them correctable automatically, helped enormously. We shipped all of it before
+            touching Rails.
+          </p>
+          <p>
+            Strong parameters was one of the headline Rails 4 features, so we added the
+            strong_parameters gem on Rails 3 and made the app ready ahead of time.
+          </p>
+          <p>
+            Before each upgrade we read the Rails upgrade guide and the upgrade notes on fastruby.io.
+            Both were a great help.
+          </p>
+
+          <h2>Rails 4</h2>
+          <p>
+            Rails 4 was the hardest of the upgrades, despite everything we had done in advance. A lot
+            changed in the framework. Rather than recount all of it, here are three things worth
+            knowing if you are facing the same jump.
+          </p>
+
+          <h3>Go from latest to latest</h3>
+          <p>
+            We started by moving from Rails 3.2 LTS to vanilla 4.0, and hit a wall. Rails 3.2 LTS let
+            us run Ruby 2.7; vanilla 4.0 did not, so we had to downgrade every dependency to a version
+            old enough to match. Many of those older versions had different public APIs, which meant
+            reimplementing our own code against them. Dependency hell.
+          </p>
+          <p>
+            Then, having finished, we could not release it. Vanilla 4.0 carries known security issues,
+            so shipping it would have been a step backwards.
+          </p>
+          <p>
+            So we carried on to vanilla 4.1, then 4.2, then 4.2 LTS. Rails 4.2 LTS supports Ruby 2.7,
+            so we could finally upgrade all those dependencies again, and undo the API changes we had
+            just made.
+          </p>
+          <p>
+            It was a lot of wasted work. In hindsight, and contrary to what the Rails upgrade guide
+            advises, we should have gone straight from 3.2 LTS to 4.2 LTS and skipped the detour
+            entirely. We learned the lesson and did exactly that for every later version, and it went
+            much faster.
+          </p>
+
+          <h3>Backport what you can</h3>
+          <p>
+            We made one commit for every small change needed to run on the next version of Rails.
+            Plenty of those changes work fine on the current version too.
+          </p>
+          <p>
+            Whenever that was the case, we cherry-picked the backportable commits into a pull request
+            against main, checked everything still worked, and deployed it. Then we rebased main onto
+            the Rails 4 branch. The goal was to keep the Rails 4 pull request as small as possible.
+          </p>
+
+          <h3>Have a way back</h3>
+          <p>
+            We also made sure the upgraded app was easy to revert. When a release was ready, we tested
+            the water by deploying the branch without merging it:
+          </p>
+          <pre>cap production deploy BRANCH=rails4</pre>
+          <p>and going back to Rails 3 was one command:</p>
+          <pre>cap production deploy</pre>
+          <p>
+            We deployed to staging first, every time. A small changeset plus a one-command rollback is
+            what let us deploy with confidence.
+          </p>
+          <p>
+            Rails 4 went out on May 4. Two months from Rails 3.2 to 4.2, with no disruption.
+          </p>
+
+          <h2>Rails 5</h2>
+          <p>
+            James started on Rails 5 the day Rails 4 shipped, this time targeting the LTS release,
+            which made it much easier.
+          </p>
+          <p>Meanwhile I had maintenance to do:</p>
+          <ul>
+            <li>read the logs for deprecation warnings and fix them</li>
+            <li>
+              let Dependabot upgrade our dependencies. There was a lot to get through, since many gems
+              had dropped Rails 3 support. We rebased them onto main one at a time and released them
+              gradually.
+            </li>
+            <li>point RuboCop at Rails 4 and work through the new offenses, again in small releases.</li>
+          </ul>
+          <p>
+            All of it was rebased onto the Rails 5 branch, which helped that upgrade along. Team work.
+          </p>
+          <p>
+            Rails 5 went out on June 5, almost exactly a month after Rails 4.
+          </p>
+
+          <h2>Serialization</h2>
+          <p>
+            Rails 5 added support for Postgres JSONB columns, so we converted every field that had been
+            serialized as YAML since Rails 2. Plural forms on translations were one of them. Migrating
+            30 million translations took a week, and we found a way to do it without any disruption.
+            That deserves a post of its own.
+          </p>
+
+          <h2>Rails 6</h2>
+          <p>
+            We went straight on to Rails 6. After 3 to 4 and 4 to 5, this was a small gap. Rails 6.1 was
+            still supported at the time, so we went to vanilla 6.1. It felt good to be back among
+            supported releases.
+          </p>
+          <p>
+            Rails 6 went out on June 13, twelve days after Rails 5. It went that fast because by then we
+            were practiced at this, and RuboCop had kept the code in good shape. There was not much to
+            change.
+          </p>
+          <p>
+            Rails 6 introduced framework defaults, so we spent the next few days turning them on one at
+            a time and releasing each one. As usual, we watched for deprecation warnings and let
+            Dependabot do its work.
+          </p>
+
+          <h2>Ruby 3.0, then 3.1</h2>
+          <p>
+            Rails 6 supports Ruby 3.0, so we upgraded and released on June 14, the day after Rails 6.
+          </p>
+          <p>
+            Then we tried Ruby 3.1 on Rails 6.1, and it worked. We upgraded on June 23, with no changes
+            at all.
+          </p>
+
+          <h2>Rails 7</h2>
+          <p>
+            I had not even released Rails 6 when James asked on Slack: &ldquo;Guess how many failing
+            specs we have on Rails 7?&rdquo; He was about to go on holiday and wanted the upgrade
+            finished. We had one failing spec. The Rails 7 release was ready before Rails 6 had shipped.
+          </p>
+          <p>
+            Rails 7 went out on June 28. We spent the following days enabling the new defaults one by
+            one, clearing deprecation warnings and fixing RuboCop offenses.
+          </p>
+
+          <h2>What we learned</h2>
+          <p>
+            Rails 3.2 to Rails 7 in about four months, with a team of two. I will not pretend it was
+            relaxing. The holiday afterwards was well earned.
+          </p>
+          <p>
+            Rails upgrades have gotten much easier over the years. There are fewer breaking changes, and
+            the framework defaults files let you turn new behavior on one piece at a time.
+          </p>
+          <p>
+            Upgrade stories usually leave out the infrastructure work, and that was the larger part for
+            us. Changing how we serialized data was a big migration in its own right, because of the
+            size of the database. We also adopted a couple of abandoned gems: we now maintain version_fu
+            and payday so they work on Ruby 3.1 and Rails 7.
+          </p>
+          <p>
+            The app uses far less memory now, thanks to Ruby 3.1 and to the dependencies we could
+            finally upgrade. It is faster and more reliable than it has ever been.
+          </p>
+
+        </div>
+
+        <div class="mt-16 border-t border-rule pt-8 dark:border-rule-dark">
+          <a href="/blog/" class="nav-link">&larr; All posts</a>
+        </div>
+      </article>
+    </main>
+
+    <footer class="border-t border-rule dark:border-rule-dark py-8 font-mono text-[0.8125rem] leading-relaxed text-slate dark:text-slate-dark">
+      <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+        <p>Rebase Capital SL &middot; ESB56536873</p>
+        <p>Calle Sauces 2, 29018 M&aacute;laga, Spain</p>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>

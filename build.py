@@ -8,8 +8,10 @@ HTML it writes, and GitHub Pages serves the files as they are.
 
 import io
 import os
+from xml.sax.saxutils import escape
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
+SITE = "https://rebase.capital"
 
 FAVICON = (
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'"
@@ -39,6 +41,7 @@ def head(title, description, url, og_type="website"):
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="{description}">
   <link rel="icon" href="{FAVICON}">
+  <link rel="alternate" type="application/atom+xml" title="Rebase Capital" href="/feed.xml">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -252,6 +255,10 @@ def blog_index_main():
 
         <div class="rise mt-14 sm:mt-20" style="animation-delay:0.18s">{rows}
         </div>
+
+        <p class="mt-10">
+          <a href="/feed.xml" class="nav-link">Subscribe by RSS &rarr;</a>
+        </p>
       </section>
     </main>
 """
@@ -288,7 +295,7 @@ def post_main(post, body):
 POST_BODY = """
           <p>
             About a year ago, WebTranslateIt ran on Rails 3.2 LTS and Ruby 2.7. It now runs on vanilla
-            Rails 7 and Ruby 3.1. The app started life in 2009 as a Rails 2 app. Time flies.
+            Rails 7 and Ruby 3.1. The app started life in 2008 as a Rails 2 app. Time flies.
           </p>
           <p>
             <a href="https://webtranslateit.com" target="_blank" rel="noopener">WebTranslateIt</a> is a
@@ -479,6 +486,46 @@ POST_BODY = """
 """
 
 
+POSTS[0]["body"] = POST_BODY
+
+
+def write_feed():
+    """Atom 1.0, full text. Post bodies carry no CSS classes, so they travel."""
+    entries = ""
+    for post in sorted(POSTS, key=lambda p: p["date"], reverse=True):
+        url = f"{SITE}/blog/{post['slug']}/"
+        stamp = post["date"] + "T00:00:00Z"
+        entries += f"""
+  <entry>
+    <title>{escape(post['title'])}</title>
+    <link rel="alternate" type="text/html" href="{url}"/>
+    <id>{url}</id>
+    <published>{stamp}</published>
+    <updated>{stamp}</updated>
+    <summary>{escape(post['summary'])}</summary>
+    <content type="html"><![CDATA[{post['body'].strip()}]]></content>
+  </entry>
+"""
+
+    updated = max(p["date"] for p in POSTS) + "T00:00:00Z"
+    feed = f"""<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Rebase Capital</title>
+  <subtitle>Write-ups of the work behind our products.</subtitle>
+  <link rel="self" type="application/atom+xml" href="{SITE}/feed.xml"/>
+  <link rel="alternate" type="text/html" href="{SITE}/blog/"/>
+  <id>{SITE}/</id>
+  <updated>{updated}</updated>
+  <author>
+    <name>Edouard Brière</name>
+    <uri>{SITE}/about/</uri>
+  </author>
+{entries}</feed>
+"""
+    io.open(os.path.join(ROOT, "feed.xml"), "w", encoding="utf-8").write(feed)
+    print("wrote feed.xml")
+
+
 # --------------------------------------------------------------------------
 
 if __name__ == "__main__":
@@ -516,3 +563,4 @@ if __name__ == "__main__":
         current="Blog",
         og_type="article",
     )
+    write_feed()

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2007–2012: Building it &mdash; Rebase Capital</title>
+  <meta name="description" content="The first of three pieces about eighteen years of WebTranslateIt — what it taught me about products, markets, and why I built my second company as the structural opposite of my first.">
+  <link rel="canonical" href="https://rebase.capital/blog/2007-2012-building-it/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://rebase.capital/blog/2007-2012-building-it/">
+  <meta property="og:title" content="2007–2012: Building it &mdash; Rebase Capital">
+  <meta property="og:description" content="The first of three pieces about eighteen years of WebTranslateIt — what it taught me about products, markets, and why I built my second company as the structural opposite of my first.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101B2D'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23C58A2A' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="alternate" type="application/atom+xml" title="Rebase Capital" href="/feed.xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/site.js"></script>
+</head>
+
+<body class="bg-paper text-ink dark:bg-ink-dark dark:text-paper-dark font-body antialiased">
+  <div class="mx-auto w-full max-w-4xl px-6 sm:px-10">
+
+    <header class="rise flex items-baseline justify-between gap-4 border-b border-rule dark:border-rule-dark py-6">
+      <a href="/" class="wordmark">
+        <span class="mr-2 inline-block h-2 w-2 -translate-y-px rounded-full bg-signal dark:bg-signal-dark align-middle"></span>Rebase&nbsp;Capital
+      </a>
+      <nav class="flex items-baseline gap-6">
+        <a href="/blog/" class="nav-link nav-link-current">Blog</a>
+        <a href="/about/" class="nav-link">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <article class="pt-14 pb-16 sm:pt-20 sm:pb-24">
+        <header>
+          <p class="rise eyebrow">
+            <time datetime="2026-07-25">25 July 2026</time>
+          </p>
+          <h1 class="rise display font-display mt-6 max-w-[20ch] text-[clamp(2.125rem,6.5vw,3.75rem)] leading-[0.98]" style="animation-delay:0.06s">
+            2007–2012: Building it
+          </h1>
+          <p class="rise mt-8 max-w-[38rem] text-xl leading-relaxed text-slate dark:text-slate-dark" style="animation-delay:0.12s">
+            The first of three pieces about eighteen years of WebTranslateIt — what it taught me about products, markets, and why I built my second company as the structural opposite of my first.
+          </p>
+        </header>
+
+        <div class="rise prose mt-14 max-w-[38rem] border-t border-rule pt-12 dark:border-rule-dark sm:mt-16" style="animation-delay:0.18s">
+
+          <p>
+            <a href="https://webtranslateit.com" target="_blank"
+            rel="noopener">WebTranslateIt</a>&rsquo;s first commit is dated October 4, 2008, and
+            it was made from Sardinia, where I was on holiday. Picture that honestly: three weeks
+            after Lehman Brothers collapsed, with the world&rsquo;s financial system on fire, a
+            French developer on an Italian beach holiday opens his laptop and creates a Subversion
+            repository for a translation tool — because the idea wouldn&rsquo;t leave him alone
+            even there. (Yes, <a href="https://subversion.apache.org" target="_blank"
+            rel="noopener">Subversion</a>. It was October 2008; <a href="https://github.com"
+            target="_blank" rel="noopener">GitHub</a> was six months old and git was still
+            something you apologized for suggesting.)
+          </p>
+          <p>
+            I can&rsquo;t claim the timing was strategy. But it shaped everything about these
+            years: the capital that would later transform my industry was, in October 2008, busy
+            not existing. The field was empty of everyone except people who simply wanted to
+            build.
+          </p>
+          <p>
+            The idea was born inside <a href="https://www.last.fm" target="_blank"
+            rel="noopener">Last.fm</a>, where I worked in the late 2000s. In 2006–2007 I built an
+            internal tool there to manage the site&rsquo;s translations, because the way software
+            got translated everywhere was this: someone exported the strings into a spreadsheet,
+            emailed it to translators, waited, received several slightly different spreadsheets
+            back, and merged them by hand. Then a developer changed twelve strings, and the whole
+            thing started again. Nobody called this a workflow. It was just what everyone did.
+          </p>
+          <p>
+            The internal tool proved the idea worked. But WebTranslateIt itself shares not a
+            single line of code with it — I wrote WTI from scratch, as its own thing, from Sweden,
+            where I was working remotely for Last.fm years before remote work was a thing anyone
+            did on purpose.
+          </p>
+          <p>
+            Fourteen months passed between that first commit and the first euro of revenue, in
+            December 2009. Fourteen months of nights and weekends on a bet nobody was validating —
+            no users cheering, no investors pattern-matching, no Product Hunt. Founder stories
+            tend to edit this part out because nothing happens in it that can be narrated. But
+            it&rsquo;s the part that decides everything: the toll booth existed for more than a
+            year before the road did.
+          </p>
+          <h2>The incumbent that couldn&rsquo;t scale</h2>
+          <p>
+            An incumbent already existed — 99translations.com — and I want to say clearly: it was
+            good. The idea was right, the interface made sense, someone had genuinely thought
+            about the problem. But it had been built the way most web apps were built in those
+            years, with everything happening in the request. You uploaded a language file, and the
+            server parsed it, diffed it, and updated the database while your browser waited and
+            the rest of the site queued up behind you. That&rsquo;s fine for a demo. It&rsquo;s
+            fatal for the actual workload, because translation files are the definition of lumpy
+            traffic: nothing for days, then a customer imports forty locale files at once. Every
+            serious customer was a denial-of-service attack on themselves.
+          </p>
+          <p>
+            My one structural insight — and in 2007 it counted as an insight — was that all of the
+            heavy work belonged in background jobs. Accept the file, queue the work, keep the site
+            fast for everyone else. Today a junior developer does this by reflex; in 2008, on
+            Rails 1.x, before the job libraries we now take for granted, it meant assembling the
+            machinery yourself. It was unglamorous plumbing. It was also a moat: WebTranslateIt
+            could take whatever a real customer threw at it, and it stayed up. The early contest
+            in translation management software wasn&rsquo;t over features or price. It was over
+            architecture, and architecture was something one developer could win.
+          </p>
+          <p>
+            The second moat was less visible and took far longer: the file handlers. A translation
+            platform lives or dies on the formats it understands — Rails YAML, gettext PO, iOS
+            strings, Android XML, and a long tail of dialects, each with its own escaping rules,
+            its own plural forms, its own undocumented quirks that only surface when a real
+            customer uploads a real file. I spent months on this — months of the least glamorous
+            programming there is, reverse-engineering how each ecosystem actually serialized its
+            strings versus how its documentation claimed it did. That file-handling code is still
+            in production today. Frameworks rose and fell, competitors raised and burned nine
+            figures, and the parsers I wrote in a flat in Sweden keep parsing.
+          </p>
+          <h2>The reference implementation</h2>
+          <p>
+            Through the years that followed, something happened that I only understood much later:
+            the product stopped being just a product and became the spec.
+          </p>
+          <p>
+            Competitors arrived, some from the open-source world, some funded, some as teams of
+            twenty against my team of one. And the twenty were, in at least one case I could
+            verify, reading the one&rsquo;s documentation to figure out what to build: tickets in
+            a competitor&rsquo;s public issue tracker linked to <em>my documentation</em> — not to
+            standards, not to academic papers, to the WebTranslateIt docs, as the description of
+            how the feature should work. I was annoyed for about a day. Then I understood what I
+            was looking at. When your competitor&rsquo;s engineering tickets cite your
+            documentation as the requirement, you have already won the argument about what the
+            product should be. Being copied is what winning that argument looks like from the
+            inside. It just doesn&rsquo;t pay royalties. One competitor later shipped a
+            command-line tool that mirrored mine down to the verbs — same commands, same grammar,
+            same shape of output.
+          </p>
+          <p>
+            In a contest decided by architecture and product judgment, one developer can keep a
+            funded team on its toes indefinitely. That stopped being the contest.
+          </p>
+          <h2>Where things stood in 2012</h2>
+          <p>
+            By 2012 the scoreboard, as I understood it, read well. The architecture held.
+            Customers who tried competitors came back after the first big import choked. Revenue
+            was real and growing, and I was doing all of it — code, support, invoices — from my
+            own two hands, with no investors and no debt.
+          </p>
+          <p>
+            Even advertising worked, in that innocent way that&rsquo;s hard to describe to anyone
+            who entered SaaS after 2015. At one point I spent about $700 on ads, and it brought a
+            wave of new customers — actual, paying, staying customers, acquired for the price of a
+            laptop. Clicks were cheap because the only people bidding were people who, like me,
+            needed the math to work. Remember that $700, because a decade later I would be paying
+            almost that much <em>every month</em> for ads that acquired nobody at all.
+          </p>
+          <p>
+            The era had its absurdities too. On June 21, 2011 — the day after my 29th birthday — I
+            was woken at 7:11 in the morning by monitoring alerts: the server was unreachable by
+            any means. The hosting company first blamed a router bug. Then I noticed that <a
+            href="https://pinboard.in" target="_blank" rel="noopener">Pinboard</a> and <a
+            href="https://www.instapaper.com" target="_blank" rel="noopener">Instapaper</a> —
+            hosted at the same ISP, because in 2011 the entire indie web apparently shared the
+            same racks in Virginia — were down too. The truth came out over the day: the FBI had
+            raided the datacenter in pursuit of someone else entirely and pulled three racks of
+            servers. Some machines were carried away as evidence; mine was merely disconnected,
+            collateral to my rack-neighbors&rsquo; misfortune. I spent the morning tweeting
+            updates, and by 10:30 the site was back with no data lost. I published a post-mortem
+            and apologized to my customers for the FBI.
+          </p>
+          <p>
+            There&rsquo;s a lunch from 2010 that captures the era for me. I sat down with Tom
+            Preston-Werner and Kyle Neath of GitHub — then still a young company, years away from
+            taking its first venture round. We were running the same stack: Ruby, Rails, the same
+            gems, probably the same deployment headaches. GitHub was proof of the thesis I was
+            betting my working life on — that a small team of developers, with no permission and
+            no capital, could build something the whole industry adopted purely because it was
+            better. What strikes me in hindsight isn&rsquo;t anything said at the table.
+            It&rsquo;s that the table existed at all. The industry was still that size.
+          </p>
+          <p>
+            That same year, the CEO of a company that was one of my happiest customers wrote to
+            offer something remarkable: an investment or an acquisition. His company was
+            self-funded, three owners, a hobby turned business. They had localized their whole
+            platform on WTI, and his reasoning was the era in miniature — they had, he wrote, seen
+            many useful small vendors come and go over the years, and they didn&rsquo;t want that
+            to happen to this one. I said no, almost without deliberating — why would I sell the
+            thing that was working, in a world where the rules were fair and I was winning under
+            them? It was the most reasonable decision in the world, given everything I could see
+            in 2010. His fear — that WTI would come and go — is the one prediction about my
+            product that never came true. Sixteen years later, it&rsquo;s still running, still
+            independent, still answering support email from the same man.
+          </p>
+          <h2>The confession</h2>
+          <p>
+            Before the money arrived, one thing about the man who was winning.
+          </p>
+          <p>
+            Around that time, the founder of a competing product wrote me the friendliest email a
+            rival would ever send: praising the craft in WebTranslateIt, proposing that our tools
+            might talk to each other, floating collaboration with no specific agenda, closing with
+            an invitation to meet at an open-source conference — with a smiley. That was simply
+            how the neighborhood talked in 2010.
+          </p>
+          <p>
+            I never replied. And the honest reason is less flattering than shyness. I heard the
+            praise as something slightly patronizing — the famous project patting the indie
+            craftsman on the head — and my private response was pure pride: I thought I had the
+            superior product, plainly, and that this settled the matter. What did they have that I
+            wanted? Fame, I told myself dismissively. Community. Interesting customers. In other
+            words — and I could not see this for another thirteen years — they had
+            <em>distribution</em>, the exact thing whose absence would eventually cap everything I
+            built, offered to me in embryo, wrapped in a compliment. I scored the game on product
+            quality, and by my scoring I was winning. They scored it on reach.
+          </p>
+          <p>
+            I had a creed for all this, and it had a patron saint: Steve Jobs, then at the height
+            of his myth. What I took from him — what my whole generation of builders took from him
+            — was the excellence half: obsess over the craft, say no to almost everything, let the
+            product be the entire argument. It didn&rsquo;t occur to me until embarrassingly
+            recently that the actual Jobs was also the greatest salesman, negotiator, and
+            distribution strategist of his era. We absorbed his editing and never noticed his
+            selling.
+          </p>
+          <p>
+            But writing this forced me one layer deeper. The pride wasn&rsquo;t really the
+            foundation. The foundation was that I was shy. I didn&rsquo;t know how to have that
+            phone call, how to work a conference hallway, how to reply to a warm email from a
+            stranger without it costing me something I couldn&rsquo;t name. And a shy craftsman
+            who finds a philosophy in which the craft is everything and the humans are
+            interruption has not found a philosophy — he has found armor. When the business needed
+            me to pick up the phone, go to the fair, chase the partnership — the hard, exposed,
+            unscorable things — there was always, conveniently, code to write instead. I hid in
+            the open, shipping, for years, and called it focus.
+          </p>
+          <p>
+            Almost three years after that unanswered email, another one arrived — from a
+            competitor that had just closed a huge funding round, informing me of its plans to
+            take 80% of the entire market. I didn&rsquo;t answer that one either. But it marked
+            the end of one era and the start of another.
+          </p>
+          <p class="colophon">
+            <em>D&uacute;n Laoghaire, 25 July 2026.</em>
+          </p>
+
+          <p class="kicker">
+            <em>In this series</em><br>
+            <a href="/blog/2012-2024-when-the-money-arrived/">2012–2024: When the money arrived &rarr;</a><br>
+          </p>
+        </div>
+
+        <div class="mt-16 border-t border-rule pt-8 dark:border-rule-dark">
+          <a href="/blog/" class="nav-link">&larr; All posts</a>
+        </div>
+      </article>
+    </main>
+
+    <footer class="border-t border-rule dark:border-rule-dark py-8 font-mono text-[0.8125rem] leading-relaxed text-slate dark:text-slate-dark">
+      <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+        <p>Rebase Capital SL &middot; ESB56536873</p>
+        <p>Calle Sauces 2, 29018 M&aacute;laga, Spain</p>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>

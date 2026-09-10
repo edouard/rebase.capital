@@ -136,6 +136,17 @@ styles.textContent = `
       @apply font-mono text-[0.8125rem] leading-relaxed text-ink dark:bg-paper-dark/[0.06] dark:text-paper-dark;
     }
     .prose strong { @apply font-semibold text-ink dark:text-paper-dark; }
+    .prose code {
+      @apply rounded bg-ink/[0.06] px-1.5 py-0.5 font-mono text-[0.8125em];
+      @apply text-ink dark:bg-paper-dark/[0.09] dark:text-paper-dark;
+    }
+    .prose pre code { @apply bg-transparent p-0 text-inherit dark:bg-transparent; }
+    /* Where and when the piece was written. */
+    .prose .colophon { @apply mt-12 text-[0.9375rem] text-slate dark:text-slate-dark; }
+    /* Trailing note pointing at the next piece in a series. */
+    .prose .kicker {
+      @apply mt-14 border-t border-rule pt-8 text-slate dark:border-rule-dark dark:text-slate-dark;
+    }
   }
 
   @layer utilities {

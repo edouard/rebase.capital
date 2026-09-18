@@ -5,11 +5,171 @@
   <link rel="self" type="application/atom+xml" href="https://rebase.capital/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://rebase.capital/blog/"/>
   <id>https://rebase.capital/</id>
-  <updated>2026-09-18T00:00:00Z</updated>
+  <updated>2026-09-19T00:00:00Z</updated>
   <author>
     <name>Edouard Brière</name>
     <uri>https://rebase.capital/about/</uri>
   </author>
+
+  <entry>
+    <title>Distill: a shared inbox that writes a wiki</title>
+    <link rel="alternate" type="text/html" href="https://rebase.capital/blog/distill-a-shared-inbox-that-writes-a-wiki/"/>
+    <id>https://rebase.capital/blog/distill-a-shared-inbox-that-writes-a-wiki/</id>
+    <published>2026-09-19T00:00:00Z</published>
+    <updated>2026-09-19T00:00:00Z</updated>
+    <summary>What I know about a customer is scattered across emails, chats and screenshots. Distill is the internal tool I built to read them and keep the notes I never would.</summary>
+    <content type="html"><![CDATA[<p>
+            In <a href="/blog/an-ai-sre-for-a-one-person-company/">the last post</a> I mentioned
+            Distill, an internal tool I said I&rsquo;d tell you more about. This is that post.
+          </p>
+          <p>
+            I forward an email to it, paste in a
+            WhatsApp chat, or drop in a screenshot or a contract. It reads what I gave it, works
+            out who and what it is about, and writes what it learned onto pages about the people,
+            companies and projects I deal with.
+          </p>
+          <h2>The notes I never write</h2>
+          <p>
+            Everything I know about a customer already exists somewhere. It&rsquo;s in an email
+            thread from March, a chat on my phone, a photo of a whiteboard, a PDF somebody sent
+            once. What doesn&rsquo;t exist is the page that says who this person is, what their
+            company grows, what software they run, and what we agreed last time.
+          </p>
+          <p>
+            Every CRM I&rsquo;ve used assumes I&rsquo;ll type that page myself after each call. I
+            don&rsquo;t. Nobody does for long. But I will forward an email, because forwarding an
+            email takes four seconds. So Distill asks for nothing more than that, and does the
+            writing itself. It&rsquo;s a shared inbox that writes a wiki.
+          </p>
+          <h2>What a page looks like</h2>
+          <p>
+            A page is a markdown file. It opens with a sentence or two saying who this is, and
+            then it&rsquo;s a list of facts:
+          </p>
+<pre><code>Runs procurement at Acme Cloud, where she has been our
+main contact since the 2026 renewal.
+
+## Facts
+
+- Runs procurement at [companies/acme-cloud.md] [src:412 2026-08-14]
+- ~~Based in Rotterdam~~ [src:120 2026-03-02]
+- Based in Amsterdam since June [src:412 2026-08-14]</code></pre>
+          <p>
+            The thing at the end of each line is what makes this useful. It&rsquo;s a link to
+            the source that said so: the email, the chat, the transcript of the screenshot. When an AI writes your notes, the question you&rsquo;ll ask
+            of every sentence is &ldquo;says who?&rdquo;, and the answer has to be one click away.
+          </p>
+          <p>
+            The struck-through line is a fact that stopped being true. It stays on the page with
+            its own source, so I can see what changed and when without digging through history.
+          </p>
+          <h2>What stays out of the wiki</h2>
+          <p>
+            &ldquo;I&rsquo;ll send the quote on Friday&rdquo; is not a fact about anybody. Once
+            Friday has passed it&rsquo;s either done or missed, and in six months it&rsquo;s worth
+            nothing. So it goes on a calendar, not on a page. If it won&rsquo;t be useful in six months, it
+            doesn&rsquo;t belong on the page.
+          </p>
+          <p>
+            A reminder can simply be deleted. A sourced fact shouldn&rsquo;t disappear without
+            leaving its history behind.
+          </p>
+          <h2>When it doesn&rsquo;t know, it asks</h2>
+          <p>
+            The most expensive mistake a tool like this can make is merging two people into one.
+            So an email address or a domain is treated as evidence, and a similar name is treated
+            as a coincidence. If a new &ldquo;Mike&rdquo; could plausibly be either of two Mikes
+            I already know, Distill doesn&rsquo;t guess. It asks me, and only the facts about
+            that Mike wait for the answer. Everything else in the email is written straight away.
+          </p>
+          <p>
+            It does the same when a new fact contradicts an old one: it asks me rather than
+            deciding which one is right. If I ignore a question
+            for a week, it takes the conservative option: create a new page that I can merge
+            later, or keep both facts.
+          </p>
+          <h2>Plain files in a Git repository</h2>
+          <p>
+            The wiki is a Git repository of markdown. If I clone it, I can read all of it in any
+            markdown viewer with no application running, and the source links still work, because
+            the text of every source is in the repository too. If Distill disappeared tomorrow I
+            would still have the notes. After eighteen years of running software, that&rsquo;s the
+            property I trust most.
+          </p>
+          <p>
+            The attachments themselves live in a database, not in Git. Git is deliberately bad at
+            forgetting things, and deleting somebody&rsquo;s data needs to actually delete it.
+          </p>
+          <h2>How it&rsquo;s put together</h2>
+<pre><code>email, chat, screenshot, PDF
+      |
+   intake    strip quoted replies and signatures,
+      |      transcribe images, drop tracking pixels
+      v
+   extract   who and what is this about?      (Claude Sonnet)
+   decide    what was actually agreed?        (Claude Sonnet)
+   resolve   which page is that?              (search, then Haiku)
+   write     one page at a time               (Claude Sonnet)
+      |
+      v
+   one Git commit per source</code></pre>
+          <p>
+            It&rsquo;s one Rails app. Each step is a small, separate call to Claude. There&rsquo;s
+            a reason for each one. Decisions used to be one more field in the extraction step.
+            The model then returned no decisions at all from a thread whose whole subject was two
+            people agreeing terms, and the rest of the extraction got worse too. What was actually agreed is a different question from what was mentioned, so it gets
+            its own pass.
+          </p>
+          <p>
+            Extraction runs on the larger model for a similar reason. The small one filed
+            companies under <code>people/</code> without hesitating, and every later step inherits
+            that mistake.
+          </p>
+          <p>
+            Nothing in processing a source grows with the wiki. Search picks a shortlist of pages, and those
+            are the only ones the model sees, so a source touches two to six pages whether the
+            wiki has a hundred of them or ten thousand. That keeps the bill flat, but the real reason is correctness: a model handed everything reads all of it badly.
+          </p>
+          <h2>Where the model isn&rsquo;t trusted</h2>
+          <p>
+            A model rewriting a whole page will occasionally drop a source link, and a page that
+            lost its provenance is worse than a page that missed an update. So every rewrite is
+            compared before and after, and refused if a link went missing.
+          </p>
+          <p>
+            That check once passed a rewrite it shouldn&rsquo;t have. A company&rsquo;s logo
+            vanished from its page: the model had kept the line and its source, and replaced the
+            image with the words &ldquo;their wordmark&rdquo;. The same comparison now runs over
+            images as well.
+          </p>
+          <p>
+            There&rsquo;s also a nightly pass that tidies up contradictions which built up over
+            months. It&rsquo;s never given a page to rewrite. It quotes lines back, and ordinary
+            code finds those lines and does the editing. A line quoted inexactly matches nothing,
+            and nothing happens.
+          </p>
+          <p>
+            The general rule is simple: let the model interpret things, but don&rsquo;t let it
+            silently rewrite state.
+          </p>
+          <h2>Where it stands</h2>
+          <p>
+            Distill is an internal tool, and I use it every day at
+            <a href="https://trackberry.com"  target="_blank" rel="noopener">Trackberry</a>. A
+            prospect&rsquo;s page opens with the handful of things I always want to know before a
+            call: what they grow, how much, who matters there, and what systems they use. It shows the
+            unanswered questions as plainly as the answered ones, which tells me what to ask next.
+          </p>
+          <p>
+            It isn&rsquo;t a product and I don&rsquo;t know whether it should be one. There are
+            still rough edges, and a few things I&rsquo;d like it to do that it doesn&rsquo;t yet.
+            But for now it&rsquo;s the colleague who reads everything and writes it down, which is
+            the colleague I&rsquo;ve been missing since 2008.
+          </p>
+          <p class="colophon">
+            <em>M&aacute;laga, 19 September 2026.</em>
+          </p>]]></content>
+  </entry>
 
   <entry>
     <title>Why I’m building an AI SRE for a one-person company</title>
@@ -28,8 +188,9 @@
           <p>
             <a href="https://webtranslateit.com" target="_blank" rel="noopener">WebTranslateIt</a>
             has been in production since 2008. These days I also run
-            <a href="https://trackberry.com" target="_blank" rel="noopener">Trackberry</a>, and Distill, an internal tool
-            I&rsquo;ll tell you more about in the future. That makes three Rails apps on three
+            <a href="https://trackberry.com" target="_blank" rel="noopener">Trackberry</a>, and
+            <a href="/blog/distill-a-shared-inbox-that-writes-a-wiki/">Distill</a>, an internal tool
+            I&rsquo;ve since written about. That makes three Rails apps on three
             servers at two hosting providers, looked after by a team the same size it was in
             2008: me.
           </p>

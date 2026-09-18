@@ -141,10 +141,14 @@ HOME_MAIN = f"""
 
         <div class="rise mt-10 max-w-[34rem] space-y-5 text-lg leading-relaxed text-slate dark:text-slate-dark sm:mt-14" style="animation-delay:0.14s">
           <p>
-            Rebase Capital is the holding company for the B2B software we write. We build the products, run the
-            servers and answer the support email. Nothing is flipped, and nothing is left to rot.
+            Rebase Capital is the company behind the B2B software we write. We build the products, run the
+            servers and answer the support email.
           </p>
-          <p>Owned and operated by <a href="/about/" class="link">Edouard Bri&egrave;re</a>.</p>
+          <p>
+            We keep the software simple and the businesses profitable. Nothing is flipped, and nothing is left
+            to rot.
+          </p>
+          <p>Built and operated by <a href="/about/" class="link">Edouard Bri&egrave;re</a>.</p>
         </div>
       </section>
 
@@ -153,14 +157,14 @@ HOME_MAIN = f"""
 
         <ol class="relative mt-10 sm:mt-14">{product(
             "2008", "WebTranslateIt", "https://webtranslateit.com",
-            "Translation management for software teams. Eighteen years old and still shipping.",
+            "Translation management for software teams. Eighteen years old. Still shipping.",
             "First commit 4 Oct 2008 &middot; Ruby on Rails &middot; PostgreSQL",
             "webtranslateit.webp", "The WebTranslateIt translation editor")}
 {product(
             "2026", "TrackBerry", "https://trackberry.com",
-            "Transport management for fresh produce traders. Every shipment, from grower to buyer.",
+            "Software for fresh produce traders. Every shipment, from grower to buyer.",
             "First commit 9 Jan 2026 &middot; Ruby on Rails &middot; PostgreSQL",
-            "trackberry.png", "The TrackBerry shipment dashboard", last=True)}
+            "trackberry.webp", "A TrackBerry shipment, with live tracking and its documents", last=True)}
         </ol>
       </section>
     </main>
@@ -1611,7 +1615,7 @@ if __name__ == "__main__":
     write(
         "index.html",
         "Rebase Capital &mdash; We build and run SaaS",
-        "Rebase Capital builds and runs B2B SaaS products. Owned and operated by Edouard Bri&egrave;re.",
+        "Rebase Capital builds and runs simple, profitable B2B SaaS. Built and operated by Edouard Bri&egrave;re.",
         "/",
         HOME_MAIN,
     )

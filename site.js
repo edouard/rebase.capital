@@ -108,7 +108,7 @@ styles.textContent = `
     }
 
     /* Long-form article body. */
-    .prose { @apply text-[1.0625rem] leading-[1.75] text-ink/90 dark:text-paper-dark/85; }
+    .prose { @apply text-[1.125rem] leading-[1.7] sm:text-[1.1875rem] text-ink/90 dark:text-paper-dark/85; }
     .prose > p { @apply mt-6; }
     .prose > p:first-child { @apply mt-0; }
     .prose h2 {
@@ -133,7 +133,7 @@ styles.textContent = `
     }
     .prose pre {
       @apply mt-6 overflow-x-auto rounded-md border-l-2 border-signal bg-ink/[0.04] py-4 pl-5 pr-4;
-      @apply font-mono text-[0.8125rem] leading-relaxed text-ink dark:bg-paper-dark/[0.06] dark:text-paper-dark;
+      @apply font-mono text-[0.875rem] leading-relaxed text-ink sm:text-[1rem] dark:bg-paper-dark/[0.06] dark:text-paper-dark;
     }
     .prose strong { @apply font-semibold text-ink dark:text-paper-dark; }
     .prose code {

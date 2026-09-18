@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why I’m building an AI SRE for a one-person company &mdash; Rebase Capital</title>
+  <meta name="description" content="I’ve been the entire on-call rotation since 2008. I’m building an AI agent to take some of that work off my plate.">
+  <link rel="canonical" href="https://rebase.capital/blog/an-ai-sre-for-a-one-person-company/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://rebase.capital/blog/an-ai-sre-for-a-one-person-company/">
+  <meta property="og:title" content="Why I’m building an AI SRE for a one-person company &mdash; Rebase Capital">
+  <meta property="og:description" content="I’ve been the entire on-call rotation since 2008. I’m building an AI agent to take some of that work off my plate.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23101B2D'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23C58A2A' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="alternate" type="application/atom+xml" title="Rebase Capital" href="/feed.xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/site.js?v=daf8d7fa"></script>
+</head>
+
+<body class="bg-paper text-ink dark:bg-ink-dark dark:text-paper-dark font-body antialiased">
+  <div class="mx-auto w-full max-w-4xl px-6 sm:px-10">
+
+    <header class="rise flex items-baseline justify-between gap-4 border-b border-rule dark:border-rule-dark py-6">
+      <a href="/" class="wordmark">
+        <span class="mr-2 inline-block h-2 w-2 -translate-y-px rounded-full bg-signal dark:bg-signal-dark align-middle"></span>Rebase&nbsp;Capital
+      </a>
+      <nav class="flex items-baseline gap-6">
+        <a href="/blog/" class="nav-link nav-link-current">Blog</a>
+        <a href="/about/" class="nav-link">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <article class="pt-14 pb-16 sm:pt-20 sm:pb-24">
+        <header>
+          <p class="rise eyebrow">
+            <time datetime="2026-09-18">18 September 2026</time>
+          </p>
+          <h1 class="rise display font-display mt-6 max-w-[20ch] text-[clamp(2.125rem,6.5vw,3.75rem)] leading-[0.98]" style="animation-delay:0.06s">
+            Why I’m building an AI SRE for a one-person company
+          </h1>
+          <p class="rise mt-8 max-w-[38rem] text-xl leading-relaxed text-slate dark:text-slate-dark" style="animation-delay:0.12s">
+            I’ve been the entire on-call rotation since 2008. I’m building an AI agent to take some of that work off my plate.
+          </p>
+        </header>
+
+        <div class="rise prose mt-14 max-w-[38rem] border-t border-rule pt-12 dark:border-rule-dark sm:mt-16" style="animation-delay:0.18s">
+
+          <p>
+            It is never anything interesting. A disk at 94 percent. A job queue that has stopped
+            moving. A server that wants a reboot. The alert arrives, I open a terminal, and for
+            the next twenty minutes I am a systems administrator with no colleagues and no
+            handover notes except the ones I wrote myself, years ago, in a wiki with pages called
+            <em>Queue overload mitigation</em> and <em>Recovering software RAID</em>.
+          </p>
+          <p>
+            <a href="https://webtranslateit.com" target="_blank" rel="noopener">WebTranslateIt</a>
+            has been in production since 2008. These days I also run
+            <a href="https://trackberry.com" target="_blank" rel="noopener">Trackberry</a>, and Distill, an internal tool
+            I&rsquo;ll tell you more about in the future. That makes three Rails apps on three
+            servers at two hosting providers, looked after by a team the same size it was in
+            2008: me.
+          </p>
+          <p>
+            I want something to take part of that work off my plate. I thought about it a lot over
+            the summer, and started building it this week. So treat this as a build log, not a
+            success story.
+          </p>
+          <h2>Ops with a team of one</h2>
+          <p>
+            The monitoring is fine. I run a self-hosted <a href="https://signoz.io" target="_blank"
+            rel="noopener">SigNoz</a> and the alerts fire when they
+            should. But every alert still ends with me opening a terminal.
+          </p>
+          <p>
+            Outages aren&rsquo;t actually the expensive part; they&rsquo;re rare. It&rsquo;s the
+            little things that keep stealing my attention: the reboot a kernel update is waiting
+            on, the SigNoz upgrade I do by hand every month. Each one is ten minutes, which is
+            exactly why I&rsquo;ve never automated any of them.
+          </p>
+          <h2>Why not more scripts</h2>
+          <p>
+            Scripts handle the things I already know how to handle. The incidents that cost me time need a little
+            judgment. Is this disk growth normal? Which service do I restart first?
+          </p>
+          <p>
+            I&rsquo;ve tried the obvious solution: hire someone who can share the on-call. I&rsquo;ve never found a developer who wanted the job. I&rsquo;ve been doing this for eighteen years, and I can hardly blame them.
+            Being woken up to investigate a broken background job on someone else&rsquo;s
+            infrastructure isn&rsquo;t exactly why most people become developers. Managed ops
+            makes little sense for three servers either.
+          </p>
+          <p>
+            So I want something in between: something that reads the runbook, checks the signals,
+            does the investigation, and eventually carries out a few repairs within limits I set.
+          </p>
+          <h2>What I&rsquo;m building</h2>
+          <p>
+            It lives in one repository: checks, runbooks, rules and agent code together. I want to
+            be exact about what exists, because posts like this one usually aren&rsquo;t.
+          </p>
+<pre><code>systemd timer, every 5 min
+      |
+   watcher  -- read-only probe over SSH --&gt;  the three apps
+      |
+      |  failing app + evidence
+      v
+    agent   -- rules, runbook, SSH output --&gt;  Claude
+      |     &lt;-- commands to run, diagnosis ---
+      v
+    Slack   -- later: approve --&gt;  allowlisted action</code></pre>
+          <p>
+            <strong>Running today: the watcher.</strong> A systemd timer on a box I already operate
+            runs one check per app every five minutes. To reach the other hosts it uses an SSH key that each server restricts to a single read-only script. The key
+            cannot open a shell. None of it runs in GitHub Actions, on purpose: scheduled workflows there are
+            best-effort, and a watcher that silently skips ticks is worse than no watcher.
+          </p>
+          <p>
+            A check never stops at the first failure. It gathers every signal it can and reports
+            the healthy ones too, so a failure arrives in Slack as one line like this:
+          </p>
+<pre><code>wti: goodjob: worker heartbeat is 2840s stale (limit 120s)
+  [ok: http 200 from webtranslateit.com/up;
+       postgres active, 82/450 connections;
+       goodjob 0 failures in the last hour]</code></pre>
+          <p>
+            The site is up, the database is fine, nothing is erroring, and the worker hasn&rsquo;t
+            checked in for 47 minutes. That&rsquo;s enough context for me to know where I&rsquo;d start looking.
+          </p>
+          <p>
+            The agent exists, but I don&rsquo;t trust it yet. It&rsquo;s a small Python program
+            that takes that line, loads the rules and the app&rsquo;s runbook, and calls Claude
+            with exactly one tool: run a command over SSH. The first version is read-only. The runbook has a row for this symptom: a heartbeat row that is present but stale means
+            the worker may be hung, and restarting it is allowed with approval. The agent&rsquo;s
+            job is to gather the evidence and decide whether that row really applies, or whether
+            this is something else wearing the same symptom. What I want back is something like:
+          </p>
+<pre><code>Hypothesis   worker container is up but hung
+Evidence     docker ps: jobs container running, up 9 days
+             good_job_processes: 1 row, updated 47 min ago
+             pg_locks: nothing waiting
+             oldest due job: 2790s and growing
+Recommended  restart the jobs container
+             (runbook: allowed, needs approval)
+Confidence   high</code></pre>
+          <p>
+            I wrote that report by hand. The agent hasn&rsquo;t diagnosed a real incident yet, and
+            the first few weeks will be me comparing what it says with what I would have said.
+          </p>
+          <p>
+            After that comes a short list of repairs: restart a service named in the runbook,
+            clear listed temp directories, kill a runaway process that matches a known failure
+            mode, retry a background job. Each one sits behind an approve button in Slack until I
+            decide, action by action, to take the button away.
+          </p>
+          <p>
+            The chores I opened with aren&rsquo;t on that list. Night reboots and the monthly
+            upgrade are what I most want to stop doing, and for now both are forbidden: no
+            rebooting a host, no installing packages. I&rsquo;d rather earn my way to them.
+          </p>
+          <h2>It has already found something</h2>
+          <p>
+            Before the agent has fixed anything, the project has found something I had missed,
+            and it had nothing to do with AI. The first phase was just me filling in runbooks and
+            checking them against the live hosts. Doing that, I found that WebTranslateIt&rsquo;s
+            database backup had silently not run for three weeks. The container&rsquo;s cron
+            daemon ignores a crontab that isn&rsquo;t owned by root, and the deploy tool mounted
+            it as another user. When I looked in the storage bucket the nightly dumps are uploaded to, there was one
+            file where there should have been about twenty. Nothing anywhere had said so.
+          </p>
+          <p>
+            I fixed the ownership problem, and every backup now pings an outside service that complains when
+            it goes quiet. I am precisely the kind of operator who needs a second pair of eyes.
+          </p>
+          <h2>Where the guardrails are</h2>
+          <p>
+            The runbooks are the contract. If it isn&rsquo;t written down, the agent doesn&rsquo;t
+            do it; it escalates and never improvises. I care more about what it can&rsquo;t do
+            than what it can. Nothing touches Postgres data, changes configuration, deploys code,
+            or manages users and keys. And those aren&rsquo;t instructions to the model. The agent gets its own SSH account, separate from the watcher&rsquo;s key, and the
+            account&rsquo;s <code>sudoers</code> file lists the exact commands it may run. A prompt is a request. A sudoers file is a fact.
+          </p>
+          <p>
+            It hands over to me when the fix isn&rsquo;t on the list, when a fix didn&rsquo;t work,
+            or when what it finds doesn&rsquo;t match what the runbook describes. For now its
+            confidence also has to be high. Every run reports, including the ones
+            that find nothing, so I can always read what happened while I slept.
+          </p>
+          <h2>What I expect to go wrong</h2>
+          <p>
+            I don&rsquo;t have to guess at all of it, because some has already happened.
+          </p>
+          <p>
+            The first time the probe ran against production it reported a worker heartbeat 7,209
+            seconds stale, against a limit of 120, on a healthy server. The job tables store UTC
+            in a column with no timezone, that host&rsquo;s database session is set to Berlin, and
+            every age came out exactly two hours too large. The other two hosts run on UTC, so the
+            code was right on two machines out of three, which is the worse way to be wrong. My
+            self-test didn&rsquo;t catch it; it feeds the checks fixed values, not SQL.
+          </p>
+          <p>
+            So false positives aren&rsquo;t an edge case. They&rsquo;re going to happen. Right now
+            every failing run posts, with no deduplication, because I want to see how noisy it actually is before I decide how to deal with it. If I start ignoring the Slack channel
+            because there are too many false alarms, the whole thing has failed.
+          </p>
+          <p>
+            What worries me more is an agent that finds a plausible explanation and then does the
+            wrong thing. A model that says &ldquo;I don&rsquo;t know&rdquo; is cheap. One that
+            reads a log, builds a plausible story and restarts the wrong thing is expensive, and
+            asking it to rate its own confidence is only a partial defence. That&rsquo;s why
+            version one can&rsquo;t act, version two needs a button, and Postgres is off the table
+            entirely.
+          </p>
+          <p>
+            And now I have another system to maintain. The watcher shares a host with Distill and
+            SigNoz, so if I lose that one machine I lose an app, the alerting and the thing
+            watching them, all together. I&rsquo;m betting it breaks less often than what it
+            watches. I don&rsquo;t know yet whether that&rsquo;s true.
+          </p>
+          <h2>Beyond my servers</h2>
+          <p>
+            I stayed small on purpose, and I&rsquo;ve <a
+            href="/blog/2024-2026-starting-again/">written at length</a> about how that happened.
+            The trade-off has always been that there&rsquo;s a limit to how much I can operate
+            myself. If an agent can take over some of the boring operational work without taking over the
+            important decisions, I can keep more infrastructure running without adding another
+            person to the rota. Maybe that changes what a company of one can operate. I
+            don&rsquo;t know yet.
+            That&rsquo;s what I&rsquo;m trying to find out, on my own servers, with eighteen years
+            of runbooks and an agent that isn&rsquo;t allowed to touch the database.
+          </p>
+          <h2>What&rsquo;s next</h2>
+          <p>
+            Read-only diagnosis first, then the button. I&rsquo;ll write up what happens the first
+            time it fixes something without me, and just as plainly if the first thing it does is
+            get something wrong. If you&rsquo;re building something similar for a company of one
+            or two, I&rsquo;d like to compare notes; I&rsquo;m on <a
+            href="https://www.linkedin.com/in/edouard-bri%C3%A8re-150247150/" target="_blank"
+            rel="noopener">LinkedIn</a>.
+          </p>
+          <p class="colophon">
+            <em>M&aacute;laga, 18 September 2026.</em>
+          </p>
+
+
+        </div>
+
+        <div class="mt-16 border-t border-rule pt-8 dark:border-rule-dark">
+          <a href="/blog/" class="nav-link">&larr; All posts</a>
+        </div>
+      </article>
+    </main>
+
+    <footer class="border-t border-rule dark:border-rule-dark py-8 font-mono text-[0.8125rem] leading-relaxed text-slate dark:text-slate-dark">
+      <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+        <p>Rebase Capital SL &middot; ESB56536873</p>
+        <p>Calle Sauces 2, 29018 M&aacute;laga, Spain</p>
+      </div>
+    </footer>
+
+  </div>
+</body>
+</html>

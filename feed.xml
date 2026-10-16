@@ -5,11 +5,114 @@
   <link rel="self" type="application/atom+xml" href="https://rebase.capital/feed.xml"/>
   <link rel="alternate" type="text/html" href="https://rebase.capital/blog/"/>
   <id>https://rebase.capital/</id>
-  <updated>2026-09-19T00:00:00Z</updated>
+  <updated>2026-10-16T00:00:00Z</updated>
   <author>
     <name>Edouard Brière</name>
     <uri>https://rebase.capital/about/</uri>
   </author>
+
+  <entry>
+    <title>My forties crisis</title>
+    <link rel="alternate" type="text/html" href="https://rebase.capital/blog/my-forties-crisis/"/>
+    <id>https://rebase.capital/blog/my-forties-crisis/</id>
+    <published>2026-10-16T00:00:00Z</published>
+    <updated>2026-10-16T00:00:00Z</updated>
+    <summary>Why I’m spending my forties building software for fruit importers, and why I think AI is a bigger shift than the internet.</summary>
+    <content type="html"><![CDATA[<p>
+            I&rsquo;m in my forties now. Right in the middle of it. I&rsquo;m told this is the age
+            where you buy a motorbike or start training for an Ironman. I already did the Ironman in my thirties, so that
+            one was taken.
+          </p>
+          <p>
+            My version seems to be working very hard on making importers&rsquo; lives a little
+            easier. Containers, bills of lading, packing lists, free time at the port. I
+            didn&rsquo;t see that one coming either.
+          </p>
+          <p>
+            But there&rsquo;s a reason it feels right, and it&rsquo;s about timing.
+          </p>
+          <p>
+            I grew up as the internet arrived. I started my career around 2005 and launched
+            WebTranslateIt in 2008, <a href="/blog/2007-2012-building-it/">at a time when a
+            single person with a laptop could build a business and sell it to the whole world</a>.
+            That was the first big technology shift of my life, and I got to build on it for
+            almost twenty years.
+          </p>
+          <p>
+            Now there&rsquo;s a second one. To me, AI is even more important than the internet
+            was. The internet connected information. AI can actually read it, understand it and
+            do something useful with it. A packing list in a PDF attached to an email from a
+            shipper on the other side of the world used to need a human to make sense of it. Now
+            it doesn&rsquo;t.
+          </p>
+          <p>
+            The interesting part is not the technology itself. It&rsquo;s what it makes possible
+            for industries that the first wave mostly skipped. Fresh produce still runs on email,
+            phone calls and spreadsheets. Not because people in the trade are behind, but because
+            until now the software couldn&rsquo;t cope with how messy the real work is. Every
+            shipper sends a different document. Every shipping line has a different website.
+            Every customer has their own way of doing things.
+          </p>
+          <p>
+            That messiness is exactly what AI is good at handling. Not to replace the people
+            doing the job, but to stop them wasting their days on the parts a machine can now do.
+          </p>
+          <h2>&ldquo;Thank you for building this&rdquo;</h2>
+          <p>
+            Earlier this month I was at Fruit Attraction in Madrid, and I met a lot of importers.
+            I showed them <a href="https://trackberry.com" target="_blank" rel="noopener">Trackberry</a>
+            on my iPad, between stands and over coffee.
+          </p>
+          <p>
+            A couple of times, I could see the cogs turning. They&rsquo;d look at the screen,
+            think about their own containers, their own inbox, and then: &ldquo;Holy shit, thank
+            you for building this!&rdquo;
+          </p>
+          <p>
+            I&rsquo;ve been working really hard for the past ten months, and it&rsquo;s quite
+            something to hear that.
+          </p>
+          <p>
+            I&rsquo;ve been writing commercial software for twenty years. People have paid for
+            it, renewed it, recommended it, complained about it. But this was the first time I
+            heard a thank you that came from the bottom of the heart. Not polite, not a sales
+            conversation. Just someone who has spent years chasing containers and copying numbers
+            out of PDFs, seeing that they might not have to anymore.
+          </p>
+          <p>
+            That&rsquo;s something I love about this industry. People in fresh produce are simple
+            and down to earth. Buying and selling fruit and vegetables is one of the oldest trades
+            in the world, and it still runs on handshakes, phone calls and trust. Nobody is
+            impressed by buzzwords.
+          </p>
+          <p>
+            But let&rsquo;s be fair: it has become a lot more complicated recently. Peru alone has
+            turned into a giant orchard for the world, shipping citrus, blueberries, avocados,
+            asparagus and grapes. What used to be a simple trade now means, for some importers,
+            keeping an eye on 100 containers a week, at the mercy of carriers, port congestion,
+            geopolitics and climate change. The people are still simple. The job isn&rsquo;t anymore. That&rsquo;s
+            where good tools earn their place.
+          </p>
+          <h2>Time to be an optimist</h2>
+          <p>
+            There&rsquo;s a lot of noise about AI right now. Some of it is hype, some of it is
+            fear. I understand both.
+          </p>
+          <p>
+            But from where I sit, talking to importers every week and watching what the software
+            can now do with their documents, I mostly feel lucky. I get to live through two of the
+            biggest technology shifts in history. The first time, I was learning as I went. This
+            time, I have twenty years of building and selling software behind me, and I know how
+            to turn the new technology into something people actually use. And I get to spend it
+            solving real, boring, useful problems for people I like working with.
+          </p>
+          <p>
+            What a great time to be alive. I&rsquo;m choosing to be an optimist.
+          </p>
+          <p class="colophon">
+            <em>M&aacute;laga, 16 October 2026.</em>
+          </p>]]></content>
+  </entry>
 
   <entry>
     <title>Distill: a shared inbox that writes a wiki</title>

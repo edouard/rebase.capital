@@ -287,7 +287,7 @@ POSTS = [
         "title": "My forties crisis",
         "date": "2026-10-16",
         "date_label": "16 October 2026",
-        "summary": "Some people buy a motorbike in their forties. I’m building software for fruit importers, because I get to live through a second big technology shift, and it reaches the industries the first one skipped.",
+        "summary": "Why I’m spending my forties building software for fruit importers, and why I think AI is a bigger shift than the internet.",
     },
 ]
 
